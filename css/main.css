@@ -1,0 +1,24 @@
+body {
+  height: 100vh;
+  font-family: sans-serif;
+}
+
+body main {
+  margin: 0 auto;
+  margin-top: 40px;
+  width: 46vw;
+  height: 70%;
+  background-color: beige;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr;
+      grid-template-columns: 1fr;
+  -ms-grid-rows: 1 fr 30px 110px;
+      grid-template-rows: 1 fr 30px 110px;
+}
+
+body main .slider-image_block {
+  width: 100%;
+  height: 100%;
+}
+/*# sourceMappingURL=main.css.map */

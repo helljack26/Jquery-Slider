@@ -1,0 +1,20 @@
+body {
+    height: 100vh;
+    font-family: sans-serif;
+
+    main {
+        margin: 0 auto;
+        margin-top: 40px;
+        width: 46vw;
+        height: 70%;
+        background-color: beige;
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1 fr 30px 110px;
+
+        .slider-image_block {
+            width: 100%;
+            height: 100%;
+        }
+    }
+}
