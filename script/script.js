@@ -5,9 +5,10 @@ const imageArray = [ '../img/for slider/DSC_4537.png',
     '../img/for slider/DSC_4706.png',
     '../img/for slider/DSC_5373.png'
 ];
+
 // Find current position when pogination item have class active
 const paginationArr = document.getElementById( 'pagination' ).children;
-
+let initial;
 // Init slider
 class Gallery {
     constructor( imgArr, paginationArr ) {
@@ -21,7 +22,7 @@ class Gallery {
         for ( let i = 0; i < this.paginationArr.length; i++ ) {
             let str = Array.from( this.paginationArr[ i ].classList );
             if ( str.includes( 'active' ) ) {
-                this.currentPosition = i;
+                return this.currentPosition = i;
             }
         }
     }
@@ -32,16 +33,23 @@ class Gallery {
             $( '#backward' ).addClass( 'disable' );
             $( '#forward' ).removeClass( 'disable' );
             $( '#toEnd' ).removeClass( 'disable' );
-        } else if ( this.currentPosition > 0 ) {
+        } else if ( this.currentPosition > 0 && this.currentPosition != this.arr.length - 1 ) {
             $( '#toBegin' ).removeClass( 'disable' );
             $( '#backward' ).removeClass( 'disable' );
+        } else if ( this.currentPosition == this.arr.length - 1 ) {
+            $( '#forward' ).addClass( 'disable' );
+            $( '#toEnd' ).addClass( 'disable' );
+            $( '#play' ).addClass( 'startBtn' ).removeClass( 'pauseBtn' );
+            $( '.pause' ).addClass( 'start' ).removeClass( 'pause' );
+            $( '#play' ).val( 'true' );
         } else {
             console.log( 'Some erroe in disable control button method' );
         }
     }
     // Show first image and if click on step backward
     init( index ) {
-        this.disableControllButton()
+        $( '.slider-image' ).html( '' )
+        console.log( this.currentPosition );
         // Image src
         let url = this.arr[ index ];
         if ( index == 0 ) {
@@ -70,15 +78,13 @@ class Gallery {
                 $( `#pagination-item${i}` ).attr( 'class', 'slider-pagination_item' )
             );
         }
+        this.disableControllButton()
     }
     // Change slide
     changeSlide() {
         if ( this.currentPosition == this.arr.length - 1 ) {
-            $( '#play' ).addClass( 'startBtn' ).removeClass( 'pauseBtn' );
-            $( '.pause' ).addClass( 'start' ).removeClass( 'pause' );
-            $( '#play' ).val( 'true' );
-            $( '#forward' ).addClass( 'disable' );
-            $( '#toEnd' ).addClass( 'disable' );
+            this.disableControllButton()
+            this.currentPosition = 0;
             return false;
         }
         // Change currentPosition
@@ -92,20 +98,26 @@ class Gallery {
     }
 
     // Button play
-    playStop( play ) {
+    playStop( play, stopInterval, init ) {
+        this.disableControllButton()
+        if ( stopInterval == true ) {
+            clearInterval( this.Interval )
+        }
         // Condition for render btn icon
+        if ( init == true && this.currentPosition == 0 ) {
+            this.init( 0 )
+        }
         if ( play == 'true' ) {
             $( '#play' ).addClass( 'pauseBtn' ).removeClass( 'startBtn' );
             $( '.start' ).addClass( 'pause' ).removeClass( 'start' );
-
             // Start slider 
-            this.Interval = setInterval( () => {
-                if ( this.changeSlide() == false ) {
-                    clearInterval( this.Interval )
-                    this.currentPosition = 0;
-                }
-            }, 1000 );
-
+        this.Interval = setInterval( () => {
+            if ( this.changeSlide() == false ) {
+                this.currentPosition = 0;
+                initial = true;
+                clearInterval( this.Interval )
+            }
+        }, 1000 );
         } else if ( play == 'false' ) {
             $( '#play' ).addClass( 'startBtn' ).removeClass( 'pauseBtn' );
             $( '.pause' ).addClass( 'start' ).removeClass( 'pause' );
@@ -115,7 +127,6 @@ class Gallery {
         } else {
             console.log( 'Error' );
         }
-
     }
 }
 
@@ -125,14 +136,15 @@ gallery1.findCurrentPosition();
 gallery1.init( 0 );
 
 // Click event
-
 // Start, pause
 $( '#play' ).click( function () {
     $( '#play' ).val() == 'true' ? (
         $( '#play' ).val( 'false' ),
-        gallery1.playStop( 'true' )
+        gallery1.playStop( 'true', true, initial )
+
     ) : (
         $( '#play' ).val( 'true' ),
-        gallery1.playStop( 'false' )
+        gallery1.playStop( 'false', '' )
     )
+
 } )
