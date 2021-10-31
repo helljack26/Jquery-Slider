@@ -33,10 +33,17 @@ class Gallery {
             $( '#backward' ).addClass( 'disable' );
             $( '#forward' ).removeClass( 'disable' );
             $( '#toEnd' ).removeClass( 'disable' );
+        } else if ( this.currentPosition > 0 && this.currentPosition < this.arr.length - 1 ) {
+            $( '#toBegin' ).removeClass( 'disable' );
+            $( '#backward' ).removeClass( 'disable' );
+            $( '#forward' ).removeClass( 'disable' );
+            $( '#toEnd' ).removeClass( 'disable' );
         } else if ( this.currentPosition > 0 && this.currentPosition != this.arr.length - 1 ) {
             $( '#toBegin' ).removeClass( 'disable' );
             $( '#backward' ).removeClass( 'disable' );
         } else if ( this.currentPosition == this.arr.length - 1 ) {
+            $( '#toBegin' ).removeClass( 'disable' );
+            $( '#backward' ).removeClass( 'disable' );
             $( '#forward' ).addClass( 'disable' );
             $( '#toEnd' ).addClass( 'disable' );
             $( '#play' ).addClass( 'startBtn' ).removeClass( 'pauseBtn' );
@@ -47,9 +54,15 @@ class Gallery {
         }
     }
     // Show first image and if click on step backward
-    init( index ) {
+    init( index, paginationClick ) {
+        if ( paginationClick == true ) {
+            this.currentPosition = index;
+            this.disableControllButton()
+            if ( this.currentPosition == this.arr.length - 1 ) {
+                this.disableControllButton()
+            }
+        }
         $( '.slider-image' ).html( '' )
-        console.log( this.currentPosition );
         // Image src
         let url = this.arr[ index ];
         if ( index == 0 ) {
@@ -69,6 +82,7 @@ class Gallery {
         for ( let i = 0; i < this.arr.length; i++ ) {
             const item = document.createElement( 'div' );
             item.id = `pagination-item${i}`;
+            item.setAttribute( 'value', `${i}` );
             // Ternary operator
             i == this.currentPosition ? (
                 $( '#pagination' ).append( item ),
@@ -111,13 +125,13 @@ class Gallery {
             $( '#play' ).addClass( 'pauseBtn' ).removeClass( 'startBtn' );
             $( '.start' ).addClass( 'pause' ).removeClass( 'start' );
             // Start slider 
-        this.Interval = setInterval( () => {
-            if ( this.changeSlide() == false ) {
-                this.currentPosition = 0;
-                initial = true;
-                clearInterval( this.Interval )
-            }
-        }, 1000 );
+            this.Interval = setInterval( () => {
+                if ( this.changeSlide() == false ) {
+                    this.currentPosition = 0;
+                    initial = true;
+                    clearInterval( this.Interval )
+                }
+            }, 1000 );
         } else if ( play == 'false' ) {
             $( '#play' ).addClass( 'startBtn' ).removeClass( 'pauseBtn' );
             $( '.pause' ).addClass( 'start' ).removeClass( 'pause' );
@@ -136,6 +150,12 @@ gallery1.findCurrentPosition();
 gallery1.init( 0 );
 
 // Click event
+// Pagination click 
+$( '.slider-pagination_item' ).click( function ( e ) {
+    let targetValue = Number.parseInt( e.currentTarget.attributes[ 1 ].value )
+    gallery1.init( targetValue, true )
+} )
+
 // Start, pause
 $( '#play' ).click( function () {
     $( '#play' ).val() == 'true' ? (

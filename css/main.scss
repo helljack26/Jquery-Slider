@@ -35,15 +35,17 @@ body {
 
             // Image block
             &-image {
-                background-color: tomato;
-                width: fit-content;
+                // background-color: tomato;
+                // width: fit-content;
                 overflow: hidden;
                 position: relative;
-                height: 100%;
-                width: 100%;
+                max-height: 388px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
 
                 &_item {
-                    width: 100%;
+                    // width: 100%;
                     height: 100%;
                     position: absolute;
                     top: 0;
@@ -67,7 +69,8 @@ body {
                     cursor: pointer;
 
                     &:hover {
-                        background-color: $blue-hover;
+                        background-color: $blue;
+                        filter: grayscale(50%) contrast(15);
                         border: none;
                         outline: 2px solid $blue-hover;
                     }
@@ -76,9 +79,10 @@ body {
                 .active {
                     border: none;
                     background-color: $blue;
+                    filter: grayscale(50%) contrast(15);
 
                     &:hover {
-                        background-color: $blue-hover;
+                        filter: grayscale(50%) contrast(15);
                     }
                 }
             }
@@ -103,7 +107,7 @@ body {
                     margin-right: 18px;
 
                     &:hover {
-                        filter: grayscale(50%);
+                        filter: grayscale(50%) contrast(15);
                     }
                     &:last-of-type {
                         margin-right: 0;
