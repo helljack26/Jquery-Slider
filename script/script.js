@@ -16,8 +16,8 @@ class Gallery {
         this.currentPosition = 0;
         this.Interval
     }
+    // Find current position of pagination 
     findCurrentPosition() {
-        // Find current position of pagination 
         for ( let i = 0; i < this.paginationArr.length; i++ ) {
             let str = Array.from( this.paginationArr[ i ].classList );
             if ( str.includes( 'active' ) ) {
@@ -25,8 +25,23 @@ class Gallery {
             }
         }
     }
+    // Controll button disabler
+    disableControllButton() {
+        if ( this.currentPosition == 0 ) {
+            $( '#toBegin' ).addClass( 'disable' );
+            $( '#backward' ).addClass( 'disable' );
+            $( '#forward' ).removeClass( 'disable' );
+            $( '#toEnd' ).removeClass( 'disable' );
+        } else if ( this.currentPosition > 0 ) {
+            $( '#toBegin' ).removeClass( 'disable' );
+            $( '#backward' ).removeClass( 'disable' );
+        } else {
+            console.log( 'Some erroe in disable control button method' );
+        }
+    }
     // Show first image and if click on step backward
     init( index ) {
+        this.disableControllButton()
         // Image src
         let url = this.arr[ index ];
         if ( index == 0 ) {
@@ -36,7 +51,11 @@ class Gallery {
             $( '.slider-image img' ).attr( 'class', `slider-image_item ${0}` );
             $( '.slider-image_item' ).attr( 'src', `${url}` );
         } else {
-
+            // Create img
+            const img = document.createElement( 'img' );
+            $( '.slider-image' ).append( img )
+            $( '.slider-image img' ).attr( 'class', `slider-image_item ${index}` );
+            $( '.slider-image_item' ).attr( 'src', `${url}` );
         }
         // Create pagination item
         for ( let i = 0; i < this.arr.length; i++ ) {
@@ -54,19 +73,22 @@ class Gallery {
     }
     // Change slide
     changeSlide() {
-        if ( this.currentPosition == this.arr.length ) {
-            return false
+        if ( this.currentPosition == this.arr.length - 1 ) {
+            $( '#play' ).addClass( 'startBtn' ).removeClass( 'pauseBtn' );
+            $( '.pause' ).addClass( 'start' ).removeClass( 'pause' );
+            $( '#play' ).val( 'true' );
+            $( '#forward' ).addClass( 'disable' );
+            $( '#toEnd' ).addClass( 'disable' );
+            return false;
         }
         // Change currentPosition
         this.currentPosition++;
-
-        // Add
 
         // Slide current image
         $( '.slider-image_item' ).animate( {
             right: '100%'
         }, "slow" );
-
+        this.init( this.currentPosition )
     }
 
     // Button play
@@ -75,26 +97,25 @@ class Gallery {
         if ( play == 'true' ) {
             $( '#play' ).addClass( 'pauseBtn' ).removeClass( 'startBtn' );
             $( '.start' ).addClass( 'pause' ).removeClass( 'start' );
-            // Start slider
+
+            // Start slider 
             this.Interval = setInterval( () => {
                 if ( this.changeSlide() == false ) {
                     clearInterval( this.Interval )
                     this.currentPosition = 0;
-                    console.log( this.currentPosition );
                 }
-                this.changeSlide()
             }, 1000 );
 
         } else if ( play == 'false' ) {
             $( '#play' ).addClass( 'startBtn' ).removeClass( 'pauseBtn' );
             $( '.pause' ).addClass( 'start' ).removeClass( 'pause' );
+
             // Stop slider
             clearInterval( this.Interval )
         } else {
             console.log( 'Error' );
         }
-        // Condition for disable button
-        this.currentPosition > 0 ? $( '#toBegin #backwrd' ).removeClass( 'disable' ) : $( '#toBegin #backwrd' ).addClass( 'disable' );
+
     }
 }
 
