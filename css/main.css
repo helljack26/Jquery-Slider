@@ -34,8 +34,8 @@ body main .slider {
   display: grid;
   -ms-grid-columns: 1fr;
       grid-template-columns: 1fr;
-  -ms-grid-rows: 86% 30px 40px;
-      grid-template-rows: 86% 30px 40px;
+  -ms-grid-rows: 85% 30px 40px;
+      grid-template-rows: 85% 30px 40px;
 }
 
 body main .slider-image {
@@ -45,11 +45,15 @@ body main .slider-image {
   width: fit-content;
   overflow: hidden;
   position: relative;
+  height: 100%;
+  width: 100%;
 }
 
 body main .slider-image_item {
   width: 100%;
   height: 100%;
+  position: absolute;
+  top: 0;
 }
 
 body main .slider-pagination {
@@ -160,6 +164,16 @@ body main .slider-control_btn .start {
   height: 70%;
 }
 
+body main .slider-control_btn .pause {
+  -webkit-mask-size: cover;
+  mask-size: cover;
+  -webkit-mask-image: url(../img/icon/pause.svg);
+  mask-image: url(../img/icon/pause.svg);
+  background-color: #0084ff;
+  width: 60%;
+  height: 70%;
+}
+
 body main .slider-control_btn .forward {
   -webkit-mask-size: cover;
   mask-size: cover;
@@ -178,5 +192,15 @@ body main .slider-control_btn .toEnd {
   background-color: #0084ff;
   width: 65%;
   height: 70%;
+}
+
+body main .slider-control .disable {
+  -webkit-filter: opacity(50%);
+          filter: opacity(50%);
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  cursor: default;
 }
 /*# sourceMappingURL=main.css.map */
