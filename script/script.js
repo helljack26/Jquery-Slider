@@ -156,6 +156,7 @@ gallery1.init( 0 );
 $( '.slider-pagination_item' ).click( function ( e ) {
     let targetValue = Number.parseInt( e.currentTarget.attributes[ 1 ].value )
     gallery1.init( targetValue, true )
+    gallery1.playStop( 'false', '' )
 } )
 
 // Start, pause
