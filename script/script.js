@@ -54,13 +54,13 @@ class Gallery {
         }
     }
     // Show first image and if click on step backward
-    init( index, paginationClick ) {
+    init( index, paginationClick= false ) {
         if ( paginationClick == true ) {
             this.currentPosition = index;
             this.disableControllButton()
-            if ( this.currentPosition == this.arr.length - 1 ) {
-                this.disableControllButton()
-            }
+            // if ( this.currentPosition == this.arr.length-1 ) {
+            //     this.disableControllButton();
+            // }
         }
         $( '.slider-image' ).html( '' )
         // Image src
@@ -92,6 +92,8 @@ class Gallery {
                 $( `#pagination-item${i}` ).attr( 'class', 'slider-pagination_item' )
             );
         }
+        // Remove old pagination item
+        $( '#pagination div' ).not('.slider-pagination_item').remove()
         this.disableControllButton()
     }
     // Change slide
@@ -167,4 +169,4 @@ $( '#play' ).click( function () {
         gallery1.playStop( 'false', '' )
     )
 
-} )
+} ) 
