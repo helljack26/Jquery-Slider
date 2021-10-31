@@ -8,28 +8,32 @@
     <meta name="author" content="Dmitry IT-Academy STEP Kyiv">
     <meta name="description" content="Jquery slider">
     <link rel="icon" href="./img/favicon.ico">
-    <title>Jquery Slider</title>
+    <title>Jquery ООП Slider</title>
 </head>
 
 <body>
     <main>
         <div class="slider">
-            <div class="slider-image_block"></div>
-            <div class="slider-pagination">
-                <div class="slider-pagination_item"></div>
+            <!-- Image block -->
+            <div class="slider-image">
             </div>
+            <!-- Pagination -->
+            <div class="slider-pagination" id="pagination">
+
+            </div>
+            <!-- Control buttons -->
             <div class="slider-control">
-                <button type="button" class="slider-control_btn" id="toBegin">  <i class="toBegin"></i></button>
+                <button type="button" class="slider-control_btn" id="toBegin"> <i class="toBegin"></i></button>
                 <button type="button" class="slider-control_btn" id="backward"> <i class="backward"></i></button>
-                <button type="button" class="slider-control_btn" id="start">    <i class="start"></i></button>
-                <button type="button" class="slider-control_btn" id="forward">  <i class="forward"></i></button>
-                <button type="button" class="slider-control_btn" id="toEnd">    <i class="toEnd"></i></button>
+                <button type="button" class="slider-control_btn" id="start"> <i class="start"></i></button>
+                <button type="button" class="slider-control_btn" id="forward"> <i class="forward"></i></button>
+                <button type="button" class="slider-control_btn" id="toEnd"> <i class="toEnd"></i></button>
             </div>
         </div>
     </main>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="./script/4blocks.js"></script>
+    <script src="./script/script.js"></script>
 </body>
 
 </html>

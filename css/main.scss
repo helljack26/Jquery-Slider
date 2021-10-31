@@ -1,5 +1,6 @@
 // Color variables
 $blue: rgb(0, 132, 255);
+$blue-hover: rgb(2, 93, 179);
 
 * {
     box-sizing: border-box;
@@ -15,7 +16,7 @@ body {
     main {
         margin: 0 auto;
         margin-top: 40px;
-        max-width: 605px;
+        max-width: 715px;
         min-height: 490px;
         background-color: beige;
         display: grid;
@@ -30,14 +31,19 @@ body {
             border: 1px gray solid;
             display: grid;
             grid-template-columns: 1fr;
-            grid-template-rows: 88% 15px 40px;
+            grid-template-rows: 86% 30px 40px;
 
             // Image block
-            &-image_block {
+            &-image {
                 background-color: tomato;
-                width: 100%;
+                width: fit-content;
                 overflow: hidden;
                 position: relative;
+
+                &_item {
+                    width: 100%;
+                    height: 100%;
+                }
             }
 
             // Pagination
@@ -49,16 +55,27 @@ body {
                 align-items: center;
 
                 &_item {
-                    width: 9px;
-                    height: 9px;
-                    border: 1.5px solid $blue;
+                    width: 20px;
+                    height: 20px;
+                    outline: 2px solid $blue;
                     border-radius: 50%;
                     margin-right: 7px;
+                    cursor: pointer;
+
+                    &:hover {
+                        background-color: $blue-hover;
+                        border: none;
+                        outline: 2px solid $blue-hover;
+                    }
                 }
 
                 .active {
                     border: none;
                     background-color: $blue;
+
+                    &:hover {
+                        background-color: $blue-hover;
+                    }
                 }
             }
 

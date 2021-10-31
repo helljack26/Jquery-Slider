@@ -1,33 +1,57 @@
-// Dom element
-$( document ).ready( () => {
-    $( "form" ).submit( function ( e ) {
-        e.preventDefault()
-        let patternString = '';
-        let result = '';
-        const number = '0123456789'
-        const upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-        const lower = 'abcdefghijklmnopqrstuvwxyz'
-        const length = $( '#main-input' ).val();
+// Image for slider
+const imageArray = [ '../img/for slider/DSC_4537.png',
+    '../img/for slider/DSC_4549.png',
+    '../img/for slider/DSC_4659.png',
+    '../img/for slider/DSC_4706.png',
+    '../img/for slider/DSC_5373.png'
+];
+// Find current position when pogination item have class active
+const paginationArr = document.getElementById( 'pagination' ).children;
 
-        if ( $( '#digitCb' ).is( ':checked' ) ) {
-            patternString += number;
+// Init slider
+class Gallery {
+    constructor( imgArr, paginationArr ) {
+        this.arr = imgArr;
+        this.paginationArr = paginationArr;
+        this.currentPosition
+    }
+    findCurrentPosition(){
+        // Find current position of pagination 
+        for ( let i = 0; i < this.paginationArr.length; i++ ) {
+            let str = Array.from(this.paginationArr[i].classList);
+            if(str.includes('active')){
+                this.currentPosition = i;
+            }
         }
-        if ( $( '#upperCb' ).is( ':checked' ) ) {
-            patternString += upper;
+    }
+    firstShowImage() {
+        // Image src
+        let url = this.arr[0];
+        // Create img
+        const img = document.createElement('img');
+        $('.slider-image').append(img)
+        $('.slider-image img').attr('class', 'slider-image_item');
+        $('.slider-image_item').attr('src', `${url}`);
+        // Create pagination item
+        // console.log( this.currentPosition);
+        for(let i = 0; i < this.arr.length; i++){
+            const item = document.createElement('div');
+            item.id = `pagination-item${i}`
+            if(i == 0){
+                console.log('wo');
+                 $('#pagination').append(item)
+                $(`#pagination-item${i}`).attr('class', 'slider-pagination_item active');
+            }else{
+                $('#pagination').append(item)
+                $(`#pagination-item${i}`).attr('class', 'slider-pagination_item');
+            }
         }
-        if ( $( '#lowerCb' ).is( ':checked' ) ) {
-            patternString += lower;
-        }
-        const generate = ( set ) => {
-            return set.charAt( Math.floor( Math.random() * set.length ) );
-        };
 
-        for ( let i = 0; i < length; i++ ) {
-            result += generate( patternString );
-        }
-        $('#result-block_input').removeAttr('disabled');
-        $('#result-block_input').val(result)
-        return 
-    } );
+        
+    }
+}
 
-} );
+// Gallery init
+const gallery1 = new Gallery( imageArray, paginationArr );
+gallery1.findCurrentPosition();
+gallery1.firstShowImage();
