@@ -54,12 +54,12 @@ class Gallery {
         }
     }
     // Show first image and if click on step backward
-    init( index, paginationClick= false ) {
+    init( index, paginationClick = false ) {
         if ( paginationClick == true ) {
             this.currentPosition = index;
             this.disableControllButton()
-            // if ( this.currentPosition == this.arr.length-1 ) {
-            //     this.disableControllButton();
+            // if(this.currentPosition == this.arr.length-1){
+            //     this.currentPosition = 0;
             // }
         }
         $( '.slider-image' ).html( '' )
@@ -93,7 +93,7 @@ class Gallery {
             );
         }
         // Remove old pagination item
-        $( '#pagination div' ).not('.slider-pagination_item').remove()
+        $( '#pagination div' ).not( '.slider-pagination_item' ).remove()
         this.disableControllButton()
     }
     // Change slide
@@ -156,11 +156,17 @@ gallery1.init( 0 );
 $( '.slider-pagination_item' ).click( function ( e ) {
     let targetValue = Number.parseInt( e.currentTarget.attributes[ 1 ].value )
     gallery1.init( targetValue, true )
-    gallery1.playStop( 'false', '' )
+
+    gallery1.playStop( 'false', false )
+    $( '#play' ).val( 'true' )
 } )
 
 // Start, pause
 $( '#play' ).click( function () {
+    if ( gallery1.findCurrentPosition() == imageArray.length - 1 ) {
+        gallery1.init( 0, true );
+    }
+
     $( '#play' ).val() == 'true' ? (
         $( '#play' ).val( 'false' ),
         gallery1.playStop( 'true', true, initial )
@@ -170,4 +176,4 @@ $( '#play' ).click( function () {
         gallery1.playStop( 'false', '' )
     )
 
-} ) 
+} )
