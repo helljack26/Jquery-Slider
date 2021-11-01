@@ -58,8 +58,8 @@ class Gallery {
         if ( paginationClick == true ) {
             this.currentPosition = index;
             this.disableControllButton()
-            // if ( this.currentPosition == this.arr.length-1 ) {
-            //     this.disableControllButton();
+            // if(this.currentPosition == this.arr.length-1){
+            //     this.currentPosition = 0;
             // }
         }
 
@@ -174,14 +174,17 @@ gallery1.init( 0 );
 $( '.slider-pagination_item' ).click( function ( e ) {
     let targetValue = Number.parseInt( e.currentTarget.attributes[ 1 ].value )
     gallery1.init( targetValue, true )
-    gallery1.playStop( 'false', '' )
+
+    gallery1.playStop( 'false', false )
+    $( '#play' ).val( 'true' )
 } )
 
 // Start, pause
 $( '#play' ).click( function () {
-    $( `.slider-image_item` ).animate( {
-        left: '-200%'
-    }, 'slow' )
+
+    if ( gallery1.findCurrentPosition() == imageArray.length - 1 ) {
+        gallery1.init( 0, true );
+
     $( '#play' ).val() == 'true' ? (
         $( '#play' ).val( 'false' ),
         gallery1.playStop( 'true', true, initial )
