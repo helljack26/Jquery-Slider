@@ -58,9 +58,6 @@ class Gallery {
         if ( paginationClick == true ) {
             this.currentPosition = index;
             this.disableControllButton()
-            // if(this.currentPosition == this.arr.length-1){
-            //     this.currentPosition = 0;
-            // }
         }
         $( '.slider-image' ).html( '' )
         // Image src
@@ -159,7 +156,23 @@ $( '.slider-pagination_item' ).click( function ( e ) {
 
     gallery1.playStop( 'false', false )
     $( '#play' ).val( 'true' )
-} )
+} );
+// To start 
+$('#toBegin').click(function(){
+    if(gallery1.findCurrentPosition()!= 0){
+    gallery1.init( 0, true );
+    gallery1.playStop( 'false', false )
+    $( '#play' ).val( 'true' )
+    }
+})
+// Backward
+$('#backward').click(function(){
+if(gallery1.findCurrentPosition()!= 0){
+    gallery1.init( gallery1.findCurrentPosition()-1, true );
+    gallery1.playStop( 'false', false )
+    $( '#play' ).val( 'true' )
+}
+})
 
 // Start, pause
 $( '#play' ).click( function () {
@@ -175,5 +188,22 @@ $( '#play' ).click( function () {
         $( '#play' ).val( 'true' ),
         gallery1.playStop( 'false', '' )
     )
+} );
+// Forward
+$('#forward').click(function(){
+    if(gallery1.findCurrentPosition()!= imageArray.length-1){
+        gallery1.init( gallery1.findCurrentPosition()+1, true );
+        gallery1.playStop( 'false', false )
+        $( '#play' ).val( 'true' )
+    }
+    })
+// To End
+$('#toEnd').click(function(){
+    if(gallery1.findCurrentPosition()!= imageArray.length-1){
+    gallery1.init( imageArray.length-1, true );
+    gallery1.playStop( 'false', false )
+    $( '#play' ).val( 'true' )
+    }
+})
 
-} )
+
