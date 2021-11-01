@@ -45,8 +45,8 @@ body {
                 align-items: center;
 
                 &_item {
-                    // width: 100%;
-                    height: 100%;
+                    min-width: 100%;
+                    height: auto;
                     position: absolute;
                     top: 0;
                 }
@@ -59,7 +59,6 @@ body {
                 display: flex;
                 justify-content: center;
                 align-items: center;
-
                 &_item {
                     width: 20px;
                     height: 20px;

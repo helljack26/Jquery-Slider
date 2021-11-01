@@ -54,7 +54,7 @@ class Gallery {
         }
     }
     // Show first image and if click on step backward
-    init( index, paginationClick= false ) {
+    init( index, paginationClick = false ) {
         if ( paginationClick == true ) {
             this.currentPosition = index;
             this.disableControllButton()
@@ -62,24 +62,39 @@ class Gallery {
             //     this.disableControllButton();
             // }
         }
-        $( '.slider-image' ).html( '' )
+
         // Image src
         let url = this.arr[ index ];
         if ( index == 0 ) {
             // Create img
-            const img = document.createElement( 'img' );
-            $( '.slider-image' ).append( img )
-            $( '.slider-image img' ).attr( 'class', `slider-image_item ${0}` );
-            $( '.slider-image_item' ).attr( 'src', `${url}` );
+            // const img = document.createElement( 'img' );
+            // $( '.slider-image' ).append( `<img class='slider-image_item' src='${url}' style='opacity: 0'/>` )
+            // $( '.slider-image img' ).attr( 'class', `slider-image_item${0}` );
+            // $( `.slider-image_item ${0}` ).attr('src',`${url}`);
+            $( `<img class='slider-image_item ${index}' src='${url}'/>` ).on( 'load', function () {
+
+                $( '.slider-image' ).append( `<img class='slider-image_item ${index}' src='${url}' style='left: 100%'/>` )
+                $( `.slider-image_item` ).animate( {
+                    left: '0'
+                }, 'slow' )
+            } )
         } else {
+            $( `<img class='slider-image_item ${index}' src='${url}'/>` ).on( 'load', function () {
+                $( '.slider-image' ).append( `<img class='slider-image_item ${index}' src='${url}' style='left: 100%'/>` )
+                $( `.slider-image_item ` ).animate( {
+                    left: '0'
+                }, 'slow' )
+            } )
             // Create img
-            const img = document.createElement( 'img' );
-            $( '.slider-image' ).append( img )
-            $( '.slider-image img' ).attr( 'class', `slider-image_item ${index}` );
-            $( '.slider-image_item' ).attr( 'src', `${url}` );
+            // const img = document.createElement( 'img' );
+            // $( '.slider-image' ).append( img )
+            // $( '.slider-image img' ).attr( 'class', `slider-image_item ${index}` );
+            // $( '.slider-image_item' ).attr( 'src', `${url}` );
         }
+
         // Create pagination item
         for ( let i = 0; i < this.arr.length; i++ ) {
+            console.log(i );
             const item = document.createElement( 'div' );
             item.id = `pagination-item${i}`;
             item.setAttribute( 'value', `${i}` );
@@ -93,7 +108,7 @@ class Gallery {
             );
         }
         // Remove old pagination item
-        $( '#pagination div' ).not('.slider-pagination_item').remove()
+        $( '#pagination div' ).not( '.slider-pagination_item' ).remove()
         this.disableControllButton()
     }
     // Change slide
@@ -108,19 +123,21 @@ class Gallery {
 
         // Slide current image
         $( '.slider-image_item' ).animate( {
-            right: '100%'
-        }, "slow" );
+            left: ' +100%'
+        }, 'slow' )
         this.init( this.currentPosition )
     }
 
     // Button play
     playStop( play, stopInterval, init ) {
+
         this.disableControllButton()
         if ( stopInterval == true ) {
             clearInterval( this.Interval )
         }
         // Condition for render btn icon
         if ( init == true && this.currentPosition == 0 ) {
+            $( '.slider-image' ).html( `${this.init(0)}` )
             this.init( 0 )
         }
         if ( play == 'true' ) {
@@ -132,6 +149,7 @@ class Gallery {
                     this.currentPosition = 0;
                     initial = true;
                     clearInterval( this.Interval )
+                           
                 }
             }, 1000 );
         } else if ( play == 'false' ) {
@@ -161,6 +179,9 @@ $( '.slider-pagination_item' ).click( function ( e ) {
 
 // Start, pause
 $( '#play' ).click( function () {
+    $( `.slider-image_item` ).animate( {
+        left: '-200%'
+    }, 'slow' )
     $( '#play' ).val() == 'true' ? (
         $( '#play' ).val( 'false' ),
         gallery1.playStop( 'true', true, initial )
@@ -170,4 +191,4 @@ $( '#play' ).click( function () {
         gallery1.playStop( 'false', '' )
     )
 
-} ) 
+} )
