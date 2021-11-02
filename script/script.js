@@ -8,7 +8,8 @@ const imageArray = [ '../img/for slider/DSC_4537.png',
 
 // Find current position when pogination item have class active
 const paginationArr = document.getElementById( 'pagination' ).children;
-let initial;
+const fullscreen = document.createElement( 'div' );
+let initial = false;
 // Init slider
 class Gallery {
     constructor( imgArr, paginationArr ) {
@@ -50,7 +51,7 @@ class Gallery {
             $( '.pause' ).addClass( 'start' ).removeClass( 'pause' );
             $( '#play' ).val( 'true' );
         } else {
-            console.log( 'Some erroe in disable control button method' );
+            console.log( 'Some error in disable control button method' );
         }
     }
     // Show first image and if click on step backward
@@ -62,18 +63,18 @@ class Gallery {
         $( '.slider-image' ).html( '' )
         // Image src
         let url = this.arr[ index ];
+        // Create img
+        const img = document.createElement( 'img' );
         if ( index == 0 ) {
-            // Create img
-            const img = document.createElement( 'img' );
             $( '.slider-image' ).append( img )
             $( '.slider-image img' ).attr( 'class', `slider-image_item ${0}` );
             $( '.slider-image_item' ).attr( 'src', `${url}` );
-        } else {
-            // Create img
-            const img = document.createElement( 'img' );
+        } else if ( index > 0 ) {
             $( '.slider-image' ).append( img )
             $( '.slider-image img' ).attr( 'class', `slider-image_item ${index}` );
             $( '.slider-image_item' ).attr( 'src', `${url}` );
+        } else {
+            console.log( 'Error' );
         }
         // Create pagination item
         for ( let i = 0; i < this.arr.length; i++ ) {
@@ -93,6 +94,23 @@ class Gallery {
         $( '#pagination div' ).not( '.slider-pagination_item' ).remove()
         this.disableControllButton()
     }
+    // Fullscreen
+    fullScreen( i ) {
+        fullscreen.classList.add( 'fullscreen' );
+        fullscreen.innerHTML = ` 
+        <div class='fullscreen-block'>
+        <img src='${this.arr[i]}' class='fullscreen-img'/>
+        </div>`;
+        document.body.appendChild( fullscreen );
+        fullscreen.insertAdjacentHTML( "afterend", `<div class="fullScreen fullCompress"></div>` )
+        // Fullscreen button compress
+        $( '.fullCompress' ).on( 'click', function () {
+            $( '.fullscreen' ).remove()
+            $( '.fullCompress' ).hide()
+  
+        } )
+    }
+
     // Change slide
     changeSlide() {
         if ( this.currentPosition == this.arr.length - 1 ) {
@@ -153,26 +171,25 @@ gallery1.init( 0 );
 $( '.slider-pagination_item' ).click( function ( e ) {
     let targetValue = Number.parseInt( e.currentTarget.attributes[ 1 ].value )
     gallery1.init( targetValue, true )
-
     gallery1.playStop( 'false', false )
     $( '#play' ).val( 'true' )
 } );
 // To start 
-$('#toBegin').click(function(){
-    if(gallery1.findCurrentPosition()!= 0){
-    gallery1.init( 0, true );
-    gallery1.playStop( 'false', false )
-    $( '#play' ).val( 'true' )
+$( '#toBegin' ).click( function () {
+    if ( gallery1.findCurrentPosition() != 0 ) {
+        gallery1.init( 0, true );
+        gallery1.playStop( 'false', false )
+        $( '#play' ).val( 'true' )
     }
-})
+} )
 // Backward
-$('#backward').click(function(){
-if(gallery1.findCurrentPosition()!= 0){
-    gallery1.init( gallery1.findCurrentPosition()-1, true );
-    gallery1.playStop( 'false', false )
-    $( '#play' ).val( 'true' )
-}
-})
+$( '#backward' ).click( function () {
+    if ( gallery1.findCurrentPosition() != 0 ) {
+        gallery1.init( gallery1.findCurrentPosition() - 1, true );
+        gallery1.playStop( 'false', false )
+        $( '#play' ).val( 'true' )
+    }
+} )
 
 // Start, pause
 $( '#play' ).click( function () {
@@ -190,20 +207,24 @@ $( '#play' ).click( function () {
     )
 } );
 // Forward
-$('#forward').click(function(){
-    if(gallery1.findCurrentPosition()!= imageArray.length-1){
-        gallery1.init( gallery1.findCurrentPosition()+1, true );
+$( '#forward' ).click( function () {
+    if ( gallery1.findCurrentPosition() != imageArray.length - 1 ) {
+        gallery1.init( gallery1.findCurrentPosition() + 1, true );
         gallery1.playStop( 'false', false )
         $( '#play' ).val( 'true' )
     }
-    })
+} )
 // To End
-$('#toEnd').click(function(){
-    if(gallery1.findCurrentPosition()!= imageArray.length-1){
-    gallery1.init( imageArray.length-1, true );
-    gallery1.playStop( 'false', false )
-    $( '#play' ).val( 'true' )
+$( '#toEnd' ).click( function () {
+    if ( gallery1.findCurrentPosition() != imageArray.length - 1 ) {
+        gallery1.init( imageArray.length - 1, true );
+        gallery1.playStop( 'false', false )
+        $( '#play' ).val( 'true' )
     }
-})
-
-
+} )
+// Fullscreen button
+$( '.fullExpand' ).on( 'click', function () {
+    gallery1.fullScreen( gallery1.findCurrentPosition() )
+    $( '#play' ).val( 'true' ),
+    gallery1.playStop( 'false', '' )
+} )
