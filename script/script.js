@@ -107,6 +107,7 @@ class Gallery {
         $( '.fullCompress' ).on( 'click', function () {
             $( '.fullscreen' ).remove()
             $( '.fullCompress' ).hide()
+  
         } )
     }
 
@@ -223,6 +224,7 @@ $( '#toEnd' ).click( function () {
 } )
 // Fullscreen button
 $( '.fullExpand' ).on( 'click', function () {
-    console.log( gallery1.findCurrentPosition() );
     gallery1.fullScreen( gallery1.findCurrentPosition() )
+    $( '#play' ).val( 'true' ),
+    gallery1.playStop( 'false', '' )
 } )

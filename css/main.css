@@ -55,9 +55,7 @@ body main .slider-image {
 }
 
 body main .slider-image_item {
-  min-width: 100%;
   height: auto;
-  position: absolute;
   top: 0;
 }
 
