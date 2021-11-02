@@ -32,11 +32,10 @@ body {
             display: grid;
             grid-template-columns: 1fr;
             grid-template-rows: 85% 30px 40px;
+            position: relative;
 
             // Image block
             &-image {
-                // background-color: tomato;
-                // width: fit-content;
                 overflow: hidden;
                 position: relative;
                 max-height: 388px;
@@ -180,4 +179,61 @@ body {
             }
         }
     }
+}
+
+.fullscreen {
+    user-select: none;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(128, 0, 0, 0.5);
+}
+
+.fullscreen img {
+    max-width: 80vw;
+    max-height: 90vh;
+    pointer-events: none;
+    border-radius: 10px;
+    background-color: white;
+}
+.fullScreen {
+    position: absolute;
+    z-index: 5;
+    top: 15px;
+    right: 15px;
+    cursor: pointer;
+    &:hover {
+        background-color: $blue;
+        filter: grayscale(50%) contrast(15);
+    }
+}
+.fullscreen-block {
+    position: relative;
+}
+.fullExpand {
+    width: 40px;
+    height: 45px;
+    -webkit-mask-size: cover;
+    mask-size: cover;
+    -webkit-mask-image: url(../img/icon/expand-arrows-alt.svg);
+    mask-image: url(../img/icon/expand-arrows-alt.svg);
+    background-color: $blue; // or any color of your choice.
+}
+.fullCompress {
+    top: 40px;
+    right: 40px;
+    width: 45px;
+    z-index: 10;
+    height: 45px;
+    -webkit-mask-size: cover;
+    mask-size: cover;
+    -webkit-mask-image: url(../img/icon/compress-arrows-alt.svg);
+    mask-image: url(../img/icon/compress-arrows-alt.svg);
+    background-color: $blue; // or any color of your choice.
 }
